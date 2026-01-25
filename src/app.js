@@ -5,6 +5,8 @@ import { connectMongo } from "./config/mongo.js";
 import adminRoutes from "./routes/admin.js";
 import articlesRoutes from "./routes/articles.js";
 import { startScheduler } from "./jobs/refreshScheduler.js";
+import Article from "./models/Article.js";
+import { refreshAllSources } from "./services/refreshAllSources.js";
 
 dotenv.config();
 
@@ -25,6 +27,11 @@ const PORT = process.env.PORT || 4000;
 async function start() {
   try {
     await connectMongo();
+
+    const existingArticles = await Article.countDocuments({});
+    if (existingArticles === 0) {
+      await refreshAllSources(); 
+    }
 
     startScheduler();
 
