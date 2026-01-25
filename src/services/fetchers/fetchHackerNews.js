@@ -10,7 +10,7 @@ export async function fetchHackerNews() {
     headers: { "User-Agent": "content-aggregator-backend" },
   });
 
-  const topIds = Array.isArray(idsRes.data) ? idsRes.data.slice(0, 20) : [];
+  const topIds = Array.isArray(idsRes.data) ? idsRes.data.slice(0, 10) : [];
 
   const itemPromises = topIds.map((id) =>
     axios

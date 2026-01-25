@@ -5,7 +5,7 @@ export async function fetchReddit() {
   const baseUrl = process.env.REDDIT_BASE_URL || "https://www.reddit.com";
 
   const res = await axios.get(`${baseUrl}/r/all/new.json`, {
-    params: { limit: 20 },
+    params: { limit: 10 },
     headers: { "User-Agent": "content-aggregator-backend" },
   });
 
