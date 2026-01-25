@@ -2,7 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import { connectMongo } from "./config/mongo.js";
-
+import adminRoutes from "./routes/admin.js";
+import articlesRoutes from "./routes/articles.js";
 
 dotenv.config();
 
@@ -11,6 +12,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use("/admin", adminRoutes);
+app.use("/api/articles", articlesRoutes);
 
 app.get("/health", (req, res) => {
   res.json({ status: "ok", message: "Backend is running" });
@@ -32,8 +35,3 @@ async function start() {
 }
 
 start();
-
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
