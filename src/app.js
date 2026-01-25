@@ -4,6 +4,7 @@ import cors from "cors";
 import { connectMongo } from "./config/mongo.js";
 import adminRoutes from "./routes/admin.js";
 import articlesRoutes from "./routes/articles.js";
+import { startScheduler } from "./jobs/refreshScheduler.js";
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ app.use("/admin", adminRoutes);
 app.use("/api/articles", articlesRoutes);
 
 app.get("/health", (req, res) => {
-  res.json({ status: "ok", message: "Backend is running" });
+  res.json({ status: "sucess", message: "Backend is running" });
 });
 
 const PORT = process.env.PORT || 4000;
@@ -24,6 +25,8 @@ const PORT = process.env.PORT || 4000;
 async function start() {
   try {
     await connectMongo();
+
+    startScheduler();
 
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
