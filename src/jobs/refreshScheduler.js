@@ -11,8 +11,10 @@ async function runRefresh(trigger) {
   isRunning = true;
   try {
     const result = await refreshAllSources();
+    console.log(`article ${trigger} refreshed sucessfully..`);
     return { ...result, trigger };
   } finally {
+    console.log(`error during article ${trigger} refresh..`);
     isRunning = false;
   }
 }
