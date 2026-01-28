@@ -13,14 +13,16 @@ async function runRefresh(trigger) {
     const result = await refreshAllSources();
     console.log(`article ${trigger} refreshed sucessfully..`);
     return { ...result, trigger };
+  } catch (err) {
+    console.log(`error during article ${trigger} refresh..`, err);
+    return { skipped: false, error: err?.message || String(err), trigger };
   } finally {
-    console.log(`error during article ${trigger} refresh..`);
     isRunning = false;
   }
 }
 
 export function startScheduler() {
-  const timeInMinutes = Number(process.env.REFRESH_INTERVAL_MINUTES) || 15;
+  const timeInMinutes = Number(process.env.REFRESH_INTERVAL_MINUTES) || 5;
 
   scheduleNext(timeInMinutes);
 }

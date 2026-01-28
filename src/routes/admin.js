@@ -23,6 +23,25 @@ router.post("/refresh", async (req, res) => {
 
     const result = await manualRefreshAndReset();
 
+    if (result?.error) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to refresh sources",
+        error: result.error,
+      });
+    }
+
+    const anySourceFailed = ["hackernews","devto","reddit"]
+      .some((s) => result?.[s]?.success === false);
+
+    if (anySourceFailed) {
+      return res.status(207).json({
+        success: false,
+        message: "Refresh completed with partial failures",
+        data: result,
+      });
+    }
+
     res.json({
       success: true,
       message: "Sources refreshed successfully, timer reset",

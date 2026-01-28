@@ -19,7 +19,7 @@ app.use("/admin", adminRoutes);
 app.use("/api/articles", articlesRoutes);
 
 app.get("/health", (req, res) => {
-  res.json({ status: "sucess", message: "Backend is running" });
+  res.json({ status: "success", message: "Backend is running" });
 });
 
 const PORT = process.env.PORT || 4000;
